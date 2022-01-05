@@ -1,2 +1,2 @@
 # eventsauce-generate-migration
-Generate migration command for EventSauce
+Command that generates doctrine migrations per aggregate of the EventSource library
