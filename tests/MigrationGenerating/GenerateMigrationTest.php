@@ -30,7 +30,7 @@ final class GenerateMigrationTest extends TestCase
     /**
      * @test
      */
-    public function migration_generated(): void
+    public function migration_generated_and_table_created(): void
     {
         $schemaManager = $this->connection->createSchemaManager();
         if ($schemaManager->tablesExist('foo_event_message')) {
