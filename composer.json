@@ -1,0 +1,42 @@
+{
+    "name": "andreo/eventsauce-generate-migration",
+    "description": "Doctrine generate migration command for EventSauce.",
+    "keywords": [
+        "eventsauce",
+        "components",
+        "doctrine",
+        "migration"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrzej Pakula",
+            "email": "andrze.pakula@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "doctrine/dbal": "^3.1",
+        "doctrine/migrations": "^3.2",
+        "doctrine/sql-formatter": "^1.2",
+        "eventsauce/eventsauce": "^1.2",
+        "eventsauce/message-repository-table-schema": "0.3.x-dev",
+        "symfony/console": "^6.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.3",
+        "phpunit/phpunit": "^9.4",
+        "roave/security-advisories": "dev-latest"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Andreo\\EventSauce\\Doctrine\\Migration\\": "src/",
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev"
+}
