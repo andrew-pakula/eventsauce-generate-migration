@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Andreo\EventSauce\Doctrine\Migration;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -11,7 +10,8 @@ use Doctrine\DBAL\Types\Types;
 final class OutboxMessageSchemaBuilder
 {
     public function __construct(private Schema $schema = new Schema())
-    {}
+    {
+    }
 
     public function build(string $name): Schema
     {

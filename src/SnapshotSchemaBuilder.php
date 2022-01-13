@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Andreo\EventSauce\Doctrine\Migration;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -11,7 +10,8 @@ use Doctrine\DBAL\Types\Types;
 final class SnapshotSchemaBuilder
 {
     public function __construct(private Schema $schema = new Schema())
-    {}
+    {
+    }
 
     public function build(string $name, string $uuidType): Schema
     {
@@ -23,7 +23,7 @@ final class SnapshotSchemaBuilder
             'autoincrement' => true,
         ]);
         $table->addColumn('aggregate_root_id', $uuidType, [
-            'length' => Types::BINARY === $uuidType ? 16: 36,
+            'length' => Types::BINARY === $uuidType ? 16 : 36,
             'fixed' => true,
         ]);
         $table->addColumn('aggregate_root_version', Types::INTEGER, [

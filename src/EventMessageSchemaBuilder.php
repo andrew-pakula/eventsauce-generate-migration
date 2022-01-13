@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Andreo\EventSauce\Doctrine\Migration;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -15,19 +14,19 @@ final class EventMessageSchemaBuilder
     public function __construct(
         private TableSchema $tableSchema = new DefaultTableSchema(),
         private Schema $schema = new Schema()
-    )
-    {}
+    ) {
+    }
 
     public function build(string $name, string $uuidType): Schema
     {
         $table = $this->schema->createTable($name);
 
         $table->addColumn($this->tableSchema->eventIdColumn(), $uuidType, [
-            'length' => Types::BINARY === $uuidType ? 16: 36,
+            'length' => Types::BINARY === $uuidType ? 16 : 36,
             'fixed' => true,
         ]);
         $table->addColumn($this->tableSchema->aggregateRootIdColumn(), $uuidType, [
-            'length' => Types::BINARY === $uuidType ? 16: 36,
+            'length' => Types::BINARY === $uuidType ? 16 : 36,
             'fixed' => true,
         ]);
         $table->addColumn($this->tableSchema->versionColumn(), Types::INTEGER, [

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Andreo\EventSauce\Doctrine\Migration;
 
 use Doctrine\DBAL\Types\Types;
@@ -27,8 +26,7 @@ final class GenerateAggregateMigrationCommand extends Command
         private EventMessageSchemaBuilder $eventMessageSchemaBuilder,
         private OutboxMessageSchemaBuilder $outboxMessageSchemaBuilder,
         private SnapshotSchemaBuilder $snapshotSchemaBuilder
-    )
-    {
+    ) {
         parent::__construct();
     }
 
