@@ -21,7 +21,7 @@
         "doctrine/migrations": "^3.2",
         "doctrine/sql-formatter": "^1.2",
         "eventsauce/eventsauce": "^1.2",
-        "eventsauce/message-repository-table-schema": "0.3.x-dev",
+        "eventsauce/message-repository-table-schema": "^0.2.1",
         "symfony/console": "^6.0"
     },
     "require-dev": {
