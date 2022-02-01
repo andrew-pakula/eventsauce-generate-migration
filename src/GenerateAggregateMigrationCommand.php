@@ -34,24 +34,21 @@ final class GenerateAggregateMigrationCommand extends Command
     {
         $this->addOption(
             'aggregate',
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Aggregate root name.'
+            mode: InputOption::VALUE_REQUIRED,
+            description: 'Aggregate root name.'
         );
         $this->addOption(
             'schemas',
-            null,
-            InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-            'Available values: event, outbox, snapshot',
-            ['event']
+            mode: InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+            description: 'Available values: event, outbox, snapshot',
+            default: ['event']
         );
 
         $this->addOption(
             'uuid_type',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'binary | string',
-            Types::BINARY
+            mode: InputOption::VALUE_OPTIONAL,
+            description: 'binary | string',
+            default: Types::BINARY
         );
     }
 
@@ -119,8 +116,8 @@ final class GenerateAggregateMigrationCommand extends Command
 
         $upSqlList = array_merge(...$upSqlList);
 
-        $upSql = $sqlGenerator->generate($upSqlList, true, 120, false);
-        $downSql = $sqlGenerator->generate($downSqlList, true, 120, false);
+        $upSql = $sqlGenerator->generate($upSqlList, formatted: true, checkDbPlatform: false);
+        $downSql = $sqlGenerator->generate($downSqlList, formatted: true, checkDbPlatform: false);
 
         $path = $migrationGenerator->generateMigration($fqcn, $upSql, $downSql);
 
