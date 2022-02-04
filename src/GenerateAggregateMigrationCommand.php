@@ -77,7 +77,7 @@ final class GenerateAggregateMigrationCommand extends Command
         if (!in_array($uuidType, [Types::BINARY, Types::STRING], true)) {
             $output->writeln('Invalid uuid type. Available values are binary or string.');
 
-            return 1;
+            return self::INVALID;
         }
 
         $fqcn = $classNameGenerator->generateClassName($namespace);
@@ -88,7 +88,7 @@ final class GenerateAggregateMigrationCommand extends Command
             if (!in_array($schema, ['event', 'outbox', 'snapshot'], true)) {
                 $output->writeln('Invalid schema. Available values are event, outbox, snapshot.');
 
-                return 1;
+                return self::INVALID;
             }
 
             if ('event' === $schema) {
@@ -125,7 +125,7 @@ final class GenerateAggregateMigrationCommand extends Command
             sprintf('Generated new aggregate migration class to "<info>%s</info>"', $path),
         ]);
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function downSql(string $tableName): string
