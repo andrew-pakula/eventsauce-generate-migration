@@ -9,6 +9,7 @@ use Doctrine\Migrations\DependencyFactory;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,9 +33,9 @@ final class GenerateAggregateMigrationCommand extends Command
 
     protected function configure(): void
     {
-        $this->addOption(
+        $this->addArgument(
             'aggregate',
-            mode: InputOption::VALUE_REQUIRED,
+            mode: InputArgument::REQUIRED,
             description: 'Aggregate root name.'
         );
         $this->addOption(
@@ -70,7 +71,7 @@ final class GenerateAggregateMigrationCommand extends Command
         }
 
         /** @var string $aggregate */
-        $aggregate = $input->getOption('aggregate');
+        $aggregate = $input->getArgument('aggregate');
         /** @var string[] $schemas */
         $schemas = $input->getOption('schemas');
         $uuidType = $input->getOption('uuid_type');
