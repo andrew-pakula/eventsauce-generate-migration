@@ -1,6 +1,6 @@
 {
     "name": "andreo/eventsauce-generate-migration",
-    "description": "Command that generates doctrine migrations per aggregate of the EventSauce.",
+    "description": "Command that generates doctrine migrations per aggregate for the EventSauce.",
     "keywords": [
         "eventsauce",
         "components",
