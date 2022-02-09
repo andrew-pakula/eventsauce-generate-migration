@@ -27,6 +27,8 @@ In the first step, configure the [doctrine migrations](https://www.doctrine-proj
 
 ```php
 
+use Andreo\EventSauce\Doctrine\Migration\GenerateAggregateMigrationCommand;
+
 new GenerateAggregateMigrationCommand(
     dependencyFactory: $dependencyFactory, // instance of Doctrine\Migrations\DependencyFactory;
 );
@@ -38,8 +40,8 @@ Change the default table suffixes is as follows
 
 ```php
 
-use Doctrine\Migrations\DependencyFactory;
 use Andreo\EventSauce\Doctrine\Migration\TableNameSuffix;
+use Andreo\EventSauce\Doctrine\Migration\GenerateAggregateMigrationCommand;
 
 new GenerateAggregateMigrationCommand(
     dependencyFactory: $dependencyFactory,
@@ -132,8 +134,7 @@ You can write custom builder, and use it when creating a command
 
 ```php
 
-use Doctrine\Migrations\DependencyFactory;
-use Andreo\EventSauce\Doctrine\Migration\TableNameSuffix;
+use Andreo\EventSauce\Doctrine\Migration\GenerateAggregateMigrationCommand;
 
 new GenerateAggregateMigrationCommand(
     dependencyFactory: $dependencyFactory,
