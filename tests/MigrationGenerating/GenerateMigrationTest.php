@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\MigrationGenerating;
 
-use Andreo\EventSauce\Doctrine\Migration\EventMessageSchemaBuilder;
 use Andreo\EventSauce\Doctrine\Migration\GenerateAggregateMigrationCommand;
-use Andreo\EventSauce\Doctrine\Migration\OutboxMessageSchemaBuilder;
-use Andreo\EventSauce\Doctrine\Migration\SnapshotSchemaBuilder;
-use Andreo\EventSauce\Doctrine\Migration\TableNameSuffix;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\Migrations\Configuration\Connection\ExistingConnection;
@@ -78,13 +74,7 @@ final class GenerateMigrationTest extends TestCase
 
     private function command(): CommandTester
     {
-        $command = new GenerateAggregateMigrationCommand(
-            $this->dependencyFactory,
-            new TableNameSuffix(),
-            new EventMessageSchemaBuilder(),
-            new OutboxMessageSchemaBuilder(),
-            new SnapshotSchemaBuilder()
-        );
+        $command = new GenerateAggregateMigrationCommand($this->dependencyFactory);
         $this->application->add($command);
         $command = $this->application->find('andreo:event-sauce:doctrine:migration:generate');
 

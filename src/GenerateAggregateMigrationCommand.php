@@ -23,10 +23,10 @@ final class GenerateAggregateMigrationCommand extends Command
 {
     public function __construct(
         private DependencyFactory $dependencyFactory,
-        private TableNameSuffix $tableNameSuffix,
-        private EventMessageSchemaBuilder $eventMessageSchemaBuilder,
-        private OutboxMessageSchemaBuilder $outboxMessageSchemaBuilder,
-        private SnapshotSchemaBuilder $snapshotSchemaBuilder
+        private TableNameSuffix $tableNameSuffix = new TableNameSuffix(),
+        private EventMessageSchemaBuilder $eventMessageSchemaBuilder = new DefaultEventMessageSchemaBuilder(),
+        private OutboxMessageSchemaBuilder $outboxMessageSchemaBuilder = new DefaultOutboxMessageSchemaBuilder(),
+        private SnapshotSchemaBuilder $snapshotSchemaBuilder = new DefaultSnapshotSchemaBuilder()
     ) {
         parent::__construct();
     }
