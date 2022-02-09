@@ -31,7 +31,7 @@ new GenerateAggregateMigrationCommand(
 
 ### Table name suffix
 
-Changing the default table suffixes is as follows
+Change the default table suffixes is as follows
 
 ```php
 
@@ -76,7 +76,7 @@ php bin/console andreo:event-sauce:doctrine:migration:generate foo --schema=even
 
 #### Execute migration
 
-Default doctrine migration `command`
+Default doctrine migration command
 
 ```bash
 php bin/console d:m:m
