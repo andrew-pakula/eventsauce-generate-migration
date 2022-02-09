@@ -46,7 +46,7 @@ final class GenerateAggregateMigrationCommand extends Command
         );
 
         $this->addOption(
-            'uuid_type',
+            'uuid-type',
             mode: InputOption::VALUE_OPTIONAL,
             description: 'binary | string',
             default: Types::BINARY

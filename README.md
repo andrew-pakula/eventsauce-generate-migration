@@ -3,6 +3,9 @@
 Command that generates doctrine migrations 
 per aggregate
 
+[About table schema](https://eventsauce.io/docs/message-storage/repository-table-schema/)
+
+This library use **Default Table Schema**
 
 ### Installation
 
@@ -50,7 +53,7 @@ new GenerateAggregateMigrationCommand(
 andreo:event-sauce:doctrine:migration:generate
 ```
 
-#### Aggregate name argument
+#### aggregate argument
 
 - required
 - string
@@ -61,7 +64,7 @@ example command for aggregate with name **foo**
 php bin/console andreo:event-sauce:doctrine:migration:generate foo
 ```
 
-#### Schema option
+#### --schema option
 
 - optional
 - string[]
@@ -74,7 +77,13 @@ example command for aggregate with **event** and **snapshot** schemas
 php bin/console andreo:event-sauce:doctrine:migration:generate foo --schema=event --schema=snapshot
 ```
 
-#### Execute migration
+#### --uuid-type option
+
+- optional
+- one of: binary, string
+- default value: binary
+
+### Execute migration
 
 Default doctrine migration command
 
