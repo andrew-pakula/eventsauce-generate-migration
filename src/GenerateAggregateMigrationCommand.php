@@ -39,7 +39,7 @@ final class GenerateAggregateMigrationCommand extends Command
             description: 'Aggregate root name.'
         );
         $this->addOption(
-            'schemas',
+            'schema',
             mode: InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
             description: 'Available values: event, outbox, snapshot',
             default: ['event']
