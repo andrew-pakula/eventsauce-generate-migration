@@ -30,13 +30,13 @@ In the first step, configure the [doctrine migrations](https://www.doctrine-proj
 use Andreo\EventSauce\Doctrine\Migration\GenerateAggregateMigrationCommand;
 
 new GenerateAggregateMigrationCommand(
-    dependencyFactory: $dependencyFactory, // instance of Doctrine\Migrations\DependencyFactory;
+    dependencyFactory: $dependencyFactory, // instance of Doctrine\Migrations\DependencyFactory
 );
 ```
 
 ### Table name suffix
 
-Change the default table suffixes is as follows
+Example change the default table suffixes
 
 ```php
 
