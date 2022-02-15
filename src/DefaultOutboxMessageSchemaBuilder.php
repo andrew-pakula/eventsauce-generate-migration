@@ -7,7 +7,7 @@ namespace Andreo\EventSauce\Doctrine\Migration;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 
-final class DefaultOutboxMessageSchemaBuilder implements OutboxMessageSchemaBuilder
+class DefaultOutboxMessageSchemaBuilder implements OutboxMessageSchemaBuilder
 {
     public function __construct(private Schema $schema = new Schema())
     {

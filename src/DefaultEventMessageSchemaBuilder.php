@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use EventSauce\MessageRepository\TableSchema\DefaultTableSchema;
 use EventSauce\MessageRepository\TableSchema\TableSchema;
 
-final class DefaultEventMessageSchemaBuilder implements EventMessageSchemaBuilder
+class DefaultEventMessageSchemaBuilder implements EventMessageSchemaBuilder
 {
     public function __construct(
         private TableSchema $tableSchema = new DefaultTableSchema(),
