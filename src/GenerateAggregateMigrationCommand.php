@@ -73,8 +73,8 @@ final class GenerateAggregateMigrationCommand extends Command
         /** @var string $aggregate */
         $aggregate = $input->getArgument('aggregate');
         /** @var string[] $schemas */
-        $schemas = $input->getOption('schemas');
-        $uuidType = $input->getOption('uuid_type');
+        $schemas = $input->getOption('schema');
+        $uuidType = $input->getOption('uuid-type');
         if (!in_array($uuidType, [Types::BINARY, Types::STRING], true)) {
             $output->writeln('Invalid uuid type. Available values are binary or string.');
 
