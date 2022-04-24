@@ -4,27 +4,20 @@ services:
     mysql:
         build:
             context: ./mysql
-        container_name: eventsauce_migration_mysql
+        container_name: es_migration_generator_mysql
         environment:
-            - MYSQL_DATABASE=eventsauce_migration
-            - MYSQL_USER=username
+            - MYSQL_DATABASE=es_migration_generator
             - MYSQL_PASSWORD=pswd
-            - MYSQL_ROOT_PASSWORD=pswd
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
         ports:
-            - "3306:3306"
+            - "3307:3306"
         volumes:
             - ./database/data:/var/lib/mysql
-        networks:
-            - default
     php:
         build:
             context: ./php8
-        container_name: eventsauce_migration_php
+        container_name: es_migration_generator_php
         depends_on:
             - mysql
         volumes:
             - ../../:/var/library:rw
-        networks:
-            - default
-networks:
-    default:

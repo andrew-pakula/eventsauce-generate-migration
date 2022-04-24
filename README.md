@@ -1,7 +1,6 @@
-## eventsauce-generate-migration
+## eventsauce-migration-generator
 
-Command that generates doctrine migrations 
-per aggregate
+This component generates doctrine migrations per aggregate 
 
 [About table schema](https://eventsauce.io/docs/message-storage/repository-table-schema/)
 
@@ -27,9 +26,9 @@ In the first step, configure the [doctrine migrations](https://www.doctrine-proj
 
 ```php
 
-use Andreo\EventSauce\Doctrine\Migration\GenerateAggregateMigrationCommand;
+use Andreo\EventSauce\Doctrine\Migration\GenerateEventSauceDoctrineMigrationCommand;
 
-new GenerateAggregateMigrationCommand(
+new GenerateEventSauceDoctrineMigrationCommand(
     dependencyFactory: $dependencyFactory, // instance of Doctrine\Migrations\DependencyFactory
 );
 ```
@@ -41,9 +40,9 @@ Example change the default table suffixes
 ```php
 
 use Andreo\EventSauce\Doctrine\Migration\TableNameSuffix;
-use Andreo\EventSauce\Doctrine\Migration\GenerateAggregateMigrationCommand;
+use Andreo\EventSauce\Doctrine\Migration\GenerateEventSauceDoctrineMigrationCommand;
 
-new GenerateAggregateMigrationCommand(
+new GenerateEventSauceDoctrineMigrationCommand(
     dependencyFactory: $dependencyFactory,
     tableNameSuffix: new TableNameSuffix(event: 'event', snapshot: 'snapshot_state', outbox: 'outbox')
 );
@@ -134,9 +133,9 @@ You can write custom builder, and use it when creating a command
 
 ```php
 
-use Andreo\EventSauce\Doctrine\Migration\GenerateAggregateMigrationCommand;
+use Andreo\EventSauce\Doctrine\Migration\GenerateEventSauceDoctrineMigrationCommand;
 
-new GenerateAggregateMigrationCommand(
+new GenerateEventSauceDoctrineMigrationCommand(
     dependencyFactory: $dependencyFactory,
     eventMessageSchemaBuilder: new CustomEventMessageSchemaBuilder()
 );

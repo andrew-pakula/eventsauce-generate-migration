@@ -7,8 +7,8 @@ namespace Andreo\EventSauce\Doctrine\Migration;
 final class TableNameSuffix
 {
     public function __construct(
-        public readonly string $event = 'event_message',
-        public readonly string $outbox = 'outbox_message',
+        public readonly string $event = 'event_store',
+        public readonly string $outbox = 'outbox',
         public readonly string $snapshot = 'snapshot'
     ) {
     }

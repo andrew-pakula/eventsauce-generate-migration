@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker exec -it eventsauce_migration_php /bin/bash
+docker exec -it es_migration_generator_php /bin/bash

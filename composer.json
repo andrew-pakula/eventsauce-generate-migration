@@ -1,11 +1,11 @@
 {
-    "name": "andreo/eventsauce-generate-migration",
-    "description": "Command that generates doctrine migrations per aggregate.",
+    "name": "andreo/eventsauce-migration-generator",
+    "description": "This component generates doctrine migrations per aggregate.",
     "keywords": [
         "eventsauce",
         "components",
         "doctrine",
-        "migration"
+        "migrations"
     ],
     "type": "library",
     "license": "MIT",
@@ -20,8 +20,8 @@
         "doctrine/dbal": "^3.1",
         "doctrine/migrations": "^3.2",
         "doctrine/sql-formatter": "^1.1 | ^1.2",
-        "eventsauce/eventsauce": "^1.2",
-        "eventsauce/message-repository-table-schema": "^0.2.1",
+        "eventsauce/eventsauce": "^2.0.0",
+        "eventsauce/message-repository-table-schema": "^0.3.0",
         "symfony/console": "^6.0"
     },
     "require-dev": {

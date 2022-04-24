@@ -16,10 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'andreo:event-sauce:doctrine:migration:generate',
-    description: 'Generate migration for EventSauce aggregate.'
+    name: 'andreo:event-sauce:doctrine:migration:generator',
 )]
-final class GenerateAggregateMigrationCommand extends Command
+final class GenerateEventSauceDoctrineMigrationCommand extends Command
 {
     public function __construct(
         private DependencyFactory $dependencyFactory,
