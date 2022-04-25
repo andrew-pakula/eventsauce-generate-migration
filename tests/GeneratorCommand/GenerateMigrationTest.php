@@ -26,7 +26,7 @@ final class GenerateMigrationTest extends TestCase
     /**
      * @test
      */
-    public function should_create_database_structure_for_given_aggregate_name(): void
+    public function should_create_database_structure_for_given_prefix(): void
     {
         $schemaManager = $this->connection->createSchemaManager();
         if ($schemaManager->tablesExist('foo_event_store')) {
@@ -53,6 +53,46 @@ final class GenerateMigrationTest extends TestCase
         $this->assertTrue($schemaManager->tablesExist('foo_event_store'));
         $this->assertTrue($schemaManager->tablesExist('foo_outbox'));
         $this->assertTrue($schemaManager->tablesExist('foo_snapshot'));
+    }
+
+    /**
+     * @test
+     */
+    public function should_create_database_structure_without_prefix(): void
+    {
+        $schemaManager = $this->connection->createSchemaManager();
+        if ($schemaManager->tablesExist('foo_event_store')) {
+            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_event_store`');
+        }
+        if ($schemaManager->tablesExist('foo_outbox')) {
+            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_outbox`');
+        }
+        if ($schemaManager->tablesExist('foo_snapshot')) {
+            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_snapshot`');
+        }
+        if ($schemaManager->tablesExist('event_store')) {
+            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_event_store`');
+        }
+        if ($schemaManager->tablesExist('outbox')) {
+            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_outbox`');
+        }
+        if ($schemaManager->tablesExist('snapshot')) {
+            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_snapshot`');
+        }
+
+        $command = $this->command();
+        $code = $command->execute([
+            '--schema' => ['all'],
+        ]);
+
+        $this->assertEquals(0, $code);
+        $migrateCommand = $this->migrateCommand();
+        $code = $migrateCommand->execute([]);
+        $this->assertEquals(0, $code);
+
+        $this->assertTrue($schemaManager->tablesExist('event_store'));
+        $this->assertTrue($schemaManager->tablesExist('outbox'));
+        $this->assertTrue($schemaManager->tablesExist('snapshot'));
     }
 
     protected function setUp(): void
