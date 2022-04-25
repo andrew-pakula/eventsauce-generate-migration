@@ -70,7 +70,7 @@ final class GenerateEventSauceDoctrineMigrationCommand extends Command
         }
 
         /** @var string $prefix */
-        $prefix = $input->getArgument('prefix') ?? '';
+        $prefix = $input->getArgument('prefix');
         /** @var string[] $schemas */
         $schemas = $input->getOption('schema');
         $uuidType = $input->getOption('uuid-type');
