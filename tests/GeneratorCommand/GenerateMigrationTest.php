@@ -41,8 +41,8 @@ final class GenerateMigrationTest extends TestCase
 
         $command = $this->command();
         $code = $command->execute([
-            'aggregate' => 'foo',
-            '--schema' => ['event', 'outbox', 'snapshot'],
+            'prefix' => 'foo',
+            '--schema' => ['all'],
         ]);
 
         $this->assertEquals(0, $code);
