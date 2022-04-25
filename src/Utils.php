@@ -6,9 +6,9 @@ namespace Andreo\EventSauce\Doctrine\Migration;
 
 final class Utils
 {
-    public static function makeTableName(string $aggregate, string $suffix): string
+    public static function makeTableName(string $prefix, string $suffix): string
     {
-        $name = sprintf('%s_%s', $aggregate, $suffix);
+        $name = sprintf('%s_%s', $prefix, $suffix);
 
         return self::toSnakeCase($name);
     }

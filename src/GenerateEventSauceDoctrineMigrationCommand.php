@@ -33,15 +33,15 @@ final class GenerateEventSauceDoctrineMigrationCommand extends Command
     protected function configure(): void
     {
         $this->addArgument(
-            'aggregate',
-            mode: InputArgument::REQUIRED,
-            description: 'Aggregate root name.'
+            'prefix',
+            mode: InputArgument::OPTIONAL,
+            description: 'Prefix table name.',
         );
         $this->addOption(
             'schema',
             mode: InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-            description: 'Available values: event, outbox, snapshot',
-            default: ['event']
+            description: 'Available values: event, outbox, snapshot, all',
+            default: ['all']
         );
 
         $this->addOption(
@@ -69,8 +69,8 @@ final class GenerateEventSauceDoctrineMigrationCommand extends Command
             throw new RuntimeException('Please configure migrations directories.');
         }
 
-        /** @var string $aggregate */
-        $aggregate = $input->getArgument('aggregate');
+        /** @var string $prefix */
+        $prefix = $input->getArgument('prefix') ?? '';
         /** @var string[] $schemas */
         $schemas = $input->getOption('schema');
         $uuidType = $input->getOption('uuid-type');
@@ -85,29 +85,29 @@ final class GenerateEventSauceDoctrineMigrationCommand extends Command
         $upSqlList = [];
         $downSqlList = [];
         foreach ($schemas as $schema) {
-            if (!in_array($schema, ['event', 'outbox', 'snapshot'], true)) {
+            if (!in_array($schema, ['event', 'outbox', 'snapshot', 'all'], true)) {
                 $output->writeln('Invalid schema. Available values are event, outbox, snapshot.');
 
                 return self::INVALID;
             }
 
-            if ('event' === $schema) {
+            if (in_array($schema, ['event', 'all'], true)) {
                 $eventTableSuffix = $this->tableNameSuffix->event;
-                $eventTableName = Utils::makeTableName($aggregate, $eventTableSuffix);
+                $eventTableName = Utils::makeTableName($prefix, $eventTableSuffix);
                 $eventSchema = $this->eventMessageSchemaBuilder->build($eventTableName, $uuidType);
                 $upSqlList[] = $eventSchema->toSql($connection->getDatabasePlatform());
                 $downSqlList[] = $this->downSql($eventTableName);
             }
-            if ('outbox' === $schema) {
+            if (in_array($schema, ['outbox', 'all'], true)) {
                 $outboxTableSuffix = $this->tableNameSuffix->outbox;
-                $outboxTableName = Utils::makeTableName($aggregate, $outboxTableSuffix);
+                $outboxTableName = Utils::makeTableName($prefix, $outboxTableSuffix);
                 $outboxSchema = $this->outboxMessageSchemaBuilder->build($outboxTableName);
                 $upSqlList[] = $outboxSchema->toSql($connection->getDatabasePlatform());
                 $downSqlList[] = $this->downSql($outboxTableName);
             }
-            if ('snapshot' === $schema) {
+            if (in_array($schema, ['snapshot', 'all'], true)) {
                 $snapshotTableSuffix = $this->tableNameSuffix->snapshot;
-                $snapshotTableName = Utils::makeTableName($aggregate, $snapshotTableSuffix);
+                $snapshotTableName = Utils::makeTableName($prefix, $snapshotTableSuffix);
                 $snapshotSchema = $this->snapshotSchemaBuilder->build($snapshotTableName, $uuidType);
                 $upSqlList[] = $snapshotSchema->toSql($connection->getDatabasePlatform());
                 $downSqlList[] = $this->downSql($snapshotTableName);
