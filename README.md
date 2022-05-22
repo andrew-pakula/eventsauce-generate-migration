@@ -40,7 +40,7 @@ use Andreo\EventSauce\Doctrine\Migration\GenerateEventSauceDoctrineMigrationComm
 
 new GenerateEventSauceDoctrineMigrationCommand(
     dependencyFactory: $dependencyFactory,
-    tableNameSuffix: new TableNameSuffix(event: 'event_store', outbox: 'outbox', snapshot: 'snapshot')
+    tableNameSuffix: new TableNameSuffix(event: 'message_storage', outbox: 'outbox', snapshot: 'snapshot')
 );
 ```
 
