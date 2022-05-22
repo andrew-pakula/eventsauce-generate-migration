@@ -23,7 +23,7 @@ final class GenerateEventSauceDoctrineMigrationCommand extends Command
     public function __construct(
         private DependencyFactory $dependencyFactory,
         private TableNameSuffix $tableNameSuffix = new TableNameSuffix(),
-        private EventMessageSchemaBuilder $eventMessageSchemaBuilder = new DefaultEventMessageSchemaBuilder(),
+        private EventSchemaBuilder $eventMessageSchemaBuilder = new DefaultEventSchemaBuilder(),
         private OutboxMessageSchemaBuilder $outboxMessageSchemaBuilder = new DefaultOutboxMessageSchemaBuilder(),
         private SnapshotSchemaBuilder $snapshotSchemaBuilder = new DefaultSnapshotSchemaBuilder()
     ) {

@@ -6,7 +6,7 @@ namespace Andreo\EventSauce\Doctrine\Migration;
 
 use Doctrine\DBAL\Schema\Schema;
 
-interface EventMessageSchemaBuilder
+interface EventSchemaBuilder
 {
     public function build(string $name, string $uuidType): Schema;
 }

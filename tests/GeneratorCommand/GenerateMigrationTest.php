@@ -29,8 +29,8 @@ final class GenerateMigrationTest extends TestCase
     public function should_create_database_structure_for_given_prefix(): void
     {
         $schemaManager = $this->connection->createSchemaManager();
-        if ($schemaManager->tablesExist('foo_event_store')) {
-            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_event_store`');
+        if ($schemaManager->tablesExist('foo_message_storage')) {
+            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_message_storage`');
         }
         if ($schemaManager->tablesExist('foo_outbox')) {
             $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_outbox`');
@@ -50,7 +50,7 @@ final class GenerateMigrationTest extends TestCase
         $code = $migrateCommand->execute([]);
         $this->assertEquals(0, $code);
 
-        $this->assertTrue($schemaManager->tablesExist('foo_event_store'));
+        $this->assertTrue($schemaManager->tablesExist('foo_message_storage'));
         $this->assertTrue($schemaManager->tablesExist('foo_outbox'));
         $this->assertTrue($schemaManager->tablesExist('foo_snapshot'));
     }
@@ -61,8 +61,8 @@ final class GenerateMigrationTest extends TestCase
     public function should_create_database_structure_without_prefix(): void
     {
         $schemaManager = $this->connection->createSchemaManager();
-        if ($schemaManager->tablesExist('foo_event_store')) {
-            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_event_store`');
+        if ($schemaManager->tablesExist('foo_message_storage')) {
+            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_message_storage`');
         }
         if ($schemaManager->tablesExist('foo_outbox')) {
             $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_outbox`');
@@ -70,8 +70,8 @@ final class GenerateMigrationTest extends TestCase
         if ($schemaManager->tablesExist('foo_snapshot')) {
             $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_snapshot`');
         }
-        if ($schemaManager->tablesExist('event_store')) {
-            $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_event_store`');
+        if ($schemaManager->tablesExist('message_storage')) {
+            $this->connection->executeQuery('DROP TABLE IF EXISTS `message_storage`');
         }
         if ($schemaManager->tablesExist('outbox')) {
             $this->connection->executeQuery('DROP TABLE IF EXISTS `foo_outbox`');
@@ -90,7 +90,7 @@ final class GenerateMigrationTest extends TestCase
         $code = $migrateCommand->execute([]);
         $this->assertEquals(0, $code);
 
-        $this->assertTrue($schemaManager->tablesExist('event_store'));
+        $this->assertTrue($schemaManager->tablesExist('message_storage'));
         $this->assertTrue($schemaManager->tablesExist('outbox'));
         $this->assertTrue($schemaManager->tablesExist('snapshot'));
     }
