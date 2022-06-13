@@ -47,7 +47,7 @@ new GenerateEventSauceDoctrineMigrationCommand(
 ### Generate command
 
 ```bash
-andreo:event-sauce:doctrine:migration:generate
+andreo:eventsauce:doctrine-migrations:generate
 ```
 
 #### Command options
@@ -60,7 +60,7 @@ andreo:event-sauce:doctrine:migration:generate
 example with aggregate name **foo**
 
 ```bash
-php bin/console andreo:event-sauce:doctrine:migration:generate foo
+php bin/console andreo:eventsauce:doctrine-migrations:generate foo
 ```
 
 **--schema=all**
@@ -73,7 +73,7 @@ php bin/console andreo:event-sauce:doctrine:migration:generate foo
 example for **event** and **snapshot** schemas
 
 ```bash
-php bin/console andreo:event-sauce:doctrine:migration:generate foo --schema=event --schema=snapshot
+php bin/console andreo:eventsauce:doctrine-migrations:generate foo --schema=event --schema=snapshot
 ```
 
 **--uuid-type=binary**

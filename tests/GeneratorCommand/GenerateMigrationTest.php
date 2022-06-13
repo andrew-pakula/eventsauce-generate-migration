@@ -115,7 +115,7 @@ final class GenerateMigrationTest extends TestCase
     {
         $command = new GenerateEventSauceDoctrineMigrationCommand($this->dependencyFactory);
         $this->application->add($command);
-        $command = $this->application->find('andreo:event-sauce:doctrine:migration:generate');
+        $command = $this->application->find('andreo:eventsauce:doctrine-migrations:generate');
 
         return new CommandTester($command);
     }

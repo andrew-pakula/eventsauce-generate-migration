@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'andreo:event-sauce:doctrine:migration:generate',
+    name: 'andreo:eventsauce:doctrine-migrations:generate',
 )]
 final class GenerateEventSauceDoctrineMigrationCommand extends Command
 {
