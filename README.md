@@ -12,7 +12,7 @@ composer require andreo/eventsauce-migration-generator
 
 ### Requirements
 
-- PHP ^8.1
+- PHP >=8.2
 - Symfony console ^6.0
 
 
@@ -24,9 +24,9 @@ In the first step, configure the [doctrine migrations](https://www.doctrine-proj
 
 ```php
 
-use Andreo\EventSauce\Doctrine\Migration\GenerateEventSauceDoctrineMigrationCommand;
+use Andreo\EventSauce\Doctrine\Migration\Command\GenerateDoctrineMigrationForEventSauceCommand;
 
-new GenerateEventSauceDoctrineMigrationCommand(
+new GenerateDoctrineMigrationForEventSauceCommand(
     dependencyFactory: $dependencyFactory, // instance of Doctrine\Migrations\DependencyFactory
 );
 ```
@@ -35,12 +35,12 @@ new GenerateEventSauceDoctrineMigrationCommand(
 
 ```php
 
-use Andreo\EventSauce\Doctrine\Migration\TableNameSuffix;
-use Andreo\EventSauce\Doctrine\Migration\GenerateEventSauceDoctrineMigrationCommand;
+use Andreo\EventSauce\Doctrine\Migration\Command\GenerateDoctrineMigrationForEventSauceCommand;
+use Andreo\EventSauce\Doctrine\Migration\Schema\TableNameSuffix;
 
-new GenerateEventSauceDoctrineMigrationCommand(
+new GenerateDoctrineMigrationForEventSauceCommand(
     dependencyFactory: $dependencyFactory,
-    tableNameSuffix: new TableNameSuffix(event: 'message_storage', outbox: 'outbox', snapshot: 'snapshot')
+    tableNameSuffix: new TableNameSuffix(event: 'message_store')
 );
 ```
 
@@ -57,7 +57,7 @@ andreo:eventsauce:doctrine-migrations:generate
 - required
 - string
 
-example with aggregate name **foo**
+Generate migration for **foo** aggregate
 
 ```bash
 php bin/console andreo:eventsauce:doctrine-migrations:generate foo
@@ -70,7 +70,7 @@ php bin/console andreo:eventsauce:doctrine-migrations:generate foo
 - available values: event, outbox, snapshot, all
 - default value: all
 
-example for **event** and **snapshot** schemas
+Generate migration for given schemas
 
 ```bash
 php bin/console andreo:eventsauce:doctrine-migrations:generate foo --schema=event --schema=snapshot
@@ -81,11 +81,3 @@ php bin/console andreo:eventsauce:doctrine-migrations:generate foo --schema=even
 - optional
 - one of: binary, string
 - default value: binary
-
-### Execute migration
-
-Default doctrine migration command
-
-```bash
-php bin/console d:m:m
-```

@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Andreo\EventSauce\Doctrine\Migration;
+namespace Andreo\EventSauce\Doctrine\Migration\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 
-class DefaultSnapshotSchemaBuilder implements SnapshotSchemaBuilder
+final readonly class SnapshotStoreSchemaBuilder implements EventSauceSchemaBuilder
 {
     public function __construct(private Schema $schema = new Schema())
     {
     }
 
-    public function build(string $name, string $uuidType): Schema
+    public function buildSchema(SchemaMetaDataProvider $schemaMetaDataProvider): Schema
     {
-        $table = $this->schema->createTable($name);
+        $table = $this->schema->createTable($schemaMetaDataProvider->getTableName());
+        $uuidType = $schemaMetaDataProvider->getUuidType();
+        $uuidLength = $schemaMetaDataProvider->getUuidLength();
 
         $table->addColumn('id', Types::INTEGER, [
             'length' => 20,
@@ -23,7 +25,7 @@ class DefaultSnapshotSchemaBuilder implements SnapshotSchemaBuilder
             'autoincrement' => true,
         ]);
         $table->addColumn('aggregate_root_id', $uuidType, [
-            'length' => Types::BINARY === $uuidType ? 16 : 36,
+            'length' => $uuidLength,
             'fixed' => true,
         ]);
         $table->addColumn('aggregate_root_version', Types::INTEGER, [

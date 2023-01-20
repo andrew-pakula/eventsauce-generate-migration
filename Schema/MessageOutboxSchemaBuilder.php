@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Andreo\EventSauce\Doctrine\Migration;
+namespace Andreo\EventSauce\Doctrine\Migration\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 
-class DefaultOutboxMessageSchemaBuilder implements OutboxMessageSchemaBuilder
+final readonly class MessageOutboxSchemaBuilder implements EventSauceSchemaBuilder
 {
     public function __construct(private Schema $schema = new Schema())
     {
     }
 
-    public function build(string $name): Schema
+    public function buildSchema(SchemaMetaDataProvider $schemaMetaDataProvider): Schema
     {
-        $table = $this->schema->createTable($name);
+        $table = $this->schema->createTable($schemaMetaDataProvider->getTableName());
 
         $table->addColumn('id', Types::BIGINT, [
             'length' => 20,

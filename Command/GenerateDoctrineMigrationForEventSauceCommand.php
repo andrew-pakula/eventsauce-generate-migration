@@ -2,8 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Andreo\EventSauce\Doctrine\Migration;
+namespace Andreo\EventSauce\Doctrine\Migration\Command;
 
+use Andreo\EventSauce\Doctrine\Migration\Schema\DefaultSchemaMetaDataProvider;
+use Andreo\EventSauce\Doctrine\Migration\Schema\EventSauceSchemaBuilder;
+use Andreo\EventSauce\Doctrine\Migration\Schema\EventStoreSchemaBuilder;
+use Andreo\EventSauce\Doctrine\Migration\Schema\MessageOutboxSchemaBuilder;
+use Andreo\EventSauce\Doctrine\Migration\Schema\SnapshotStoreSchemaBuilder;
+use Andreo\EventSauce\Doctrine\Migration\Schema\TableNameMaker;
+use Andreo\EventSauce\Doctrine\Migration\Schema\TableNameSuffix;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Migrations\DependencyFactory;
 use RuntimeException;
@@ -18,14 +25,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(
     name: 'andreo:eventsauce:doctrine-migrations:generate',
 )]
-final class GenerateEventSauceDoctrineMigrationCommand extends Command
+final class GenerateDoctrineMigrationForEventSauceCommand extends Command
 {
     public function __construct(
-        private DependencyFactory $dependencyFactory,
-        private TableNameSuffix $tableNameSuffix = new TableNameSuffix(),
-        private EventSchemaBuilder $eventMessageSchemaBuilder = new DefaultEventSchemaBuilder(),
-        private OutboxMessageSchemaBuilder $outboxMessageSchemaBuilder = new DefaultOutboxMessageSchemaBuilder(),
-        private SnapshotSchemaBuilder $snapshotSchemaBuilder = new DefaultSnapshotSchemaBuilder()
+        private readonly DependencyFactory $dependencyFactory,
+        private readonly TableNameSuffix $tableNameSuffix = new TableNameSuffix(),
+        private readonly EventSauceSchemaBuilder $eventStoreSchemaBuilder = new EventStoreSchemaBuilder(),
+        private readonly EventSauceSchemaBuilder $messageOutboxSchemaBuilder = new MessageOutboxSchemaBuilder(),
+        private readonly EventSauceSchemaBuilder $snapshotStoreSchemaBuilder = new SnapshotStoreSchemaBuilder(),
+        private bool $formatted = true,
+        private bool $checkDbPlatform = false,
     ) {
         parent::__construct();
     }
@@ -92,23 +101,29 @@ final class GenerateEventSauceDoctrineMigrationCommand extends Command
             }
 
             if (in_array($schema, ['event', 'all'], true)) {
-                $eventTableSuffix = $this->tableNameSuffix->event;
-                $eventTableName = Utils::makeTableName($prefix, $eventTableSuffix);
-                $eventSchema = $this->eventMessageSchemaBuilder->build($eventTableName, $uuidType);
+                $eventTableSuffix = $this->tableNameSuffix->eventStore;
+                $eventTableName = TableNameMaker::makeTableName($prefix, $eventTableSuffix);
+                $eventSchema = $this->eventStoreSchemaBuilder->buildSchema(
+                    DefaultSchemaMetaDataProvider::create($eventTableName, $uuidType)
+                );
                 $upSqlList[] = $eventSchema->toSql($connection->getDatabasePlatform());
                 $downSqlList[] = $this->downSql($eventTableName);
             }
             if (in_array($schema, ['outbox', 'all'], true)) {
-                $outboxTableSuffix = $this->tableNameSuffix->outbox;
-                $outboxTableName = Utils::makeTableName($prefix, $outboxTableSuffix);
-                $outboxSchema = $this->outboxMessageSchemaBuilder->build($outboxTableName);
+                $outboxTableSuffix = $this->tableNameSuffix->messageOutbox;
+                $outboxTableName = TableNameMaker::makeTableName($prefix, $outboxTableSuffix);
+                $outboxSchema = $this->messageOutboxSchemaBuilder->buildSchema(
+                    DefaultSchemaMetaDataProvider::create($outboxTableName, $uuidType)
+                );
                 $upSqlList[] = $outboxSchema->toSql($connection->getDatabasePlatform());
                 $downSqlList[] = $this->downSql($outboxTableName);
             }
             if (in_array($schema, ['snapshot', 'all'], true)) {
-                $snapshotTableSuffix = $this->tableNameSuffix->snapshot;
-                $snapshotTableName = Utils::makeTableName($prefix, $snapshotTableSuffix);
-                $snapshotSchema = $this->snapshotSchemaBuilder->build($snapshotTableName, $uuidType);
+                $snapshotTableSuffix = $this->tableNameSuffix->snapshotStore;
+                $snapshotTableName = TableNameMaker::makeTableName($prefix, $snapshotTableSuffix);
+                $snapshotSchema = $this->snapshotStoreSchemaBuilder->buildSchema(
+                    DefaultSchemaMetaDataProvider::create($snapshotTableName, $uuidType)
+                );
                 $upSqlList[] = $snapshotSchema->toSql($connection->getDatabasePlatform());
                 $downSqlList[] = $this->downSql($snapshotTableName);
             }
@@ -116,13 +131,21 @@ final class GenerateEventSauceDoctrineMigrationCommand extends Command
 
         $upSqlList = array_merge(...$upSqlList);
 
-        $upSql = $sqlGenerator->generate($upSqlList, formatted: true, checkDbPlatform: false);
-        $downSql = $sqlGenerator->generate($downSqlList, formatted: true, checkDbPlatform: false);
+        $upSql = $sqlGenerator->generate(
+            $upSqlList,
+            formatted: $this->formatted,
+            checkDbPlatform: $this->checkDbPlatform
+        );
+        $downSql = $sqlGenerator->generate(
+            $downSqlList,
+            formatted: $this->formatted,
+            checkDbPlatform: $this->checkDbPlatform
+        );
 
         $path = $migrationGenerator->generateMigration($fqcn, $upSql, $downSql);
 
         $io->text([
-            sprintf('Generated new aggregate migration class to "<info>%s</info>"', $path),
+            sprintf('Generated new doctrine migration class to "<info>%s</info>"', $path),
         ]);
 
         return self::SUCCESS;

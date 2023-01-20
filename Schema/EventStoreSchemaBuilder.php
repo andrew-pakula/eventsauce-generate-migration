@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Andreo\EventSauce\Doctrine\Migration;
+namespace Andreo\EventSauce\Doctrine\Migration\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 use EventSauce\MessageRepository\TableSchema\DefaultTableSchema;
 use EventSauce\MessageRepository\TableSchema\TableSchema;
 
-class DefaultEventSchemaBuilder implements EventSchemaBuilder
+final readonly class EventStoreSchemaBuilder implements EventSauceSchemaBuilder
 {
     public function __construct(
         private TableSchema $tableSchema = new DefaultTableSchema(),
@@ -17,16 +17,22 @@ class DefaultEventSchemaBuilder implements EventSchemaBuilder
     ) {
     }
 
-    public function build(string $name, string $uuidType): Schema
+    public function buildSchema(SchemaMetaDataProvider $schemaMetaDataProvider): Schema
     {
-        $table = $this->schema->createTable($name);
+        $table = $this->schema->createTable($schemaMetaDataProvider->getTableName());
+        $uuidType = $schemaMetaDataProvider->getUuidType();
+        $uuidLength = $schemaMetaDataProvider->getUuidLength();
 
+        $table->addColumn($this->tableSchema->incrementalIdColumn(), Types::BIGINT, [
+            'unsigned' => true,
+            'autoincrement' => true,
+        ]);
         $table->addColumn($this->tableSchema->eventIdColumn(), $uuidType, [
-            'length' => Types::BINARY === $uuidType ? 16 : 36,
+            'length' => $uuidLength,
             'fixed' => true,
         ]);
         $table->addColumn($this->tableSchema->aggregateRootIdColumn(), $uuidType, [
-            'length' => Types::BINARY === $uuidType ? 16 : 36,
+            'length' => $uuidLength,
             'fixed' => true,
         ]);
         $table->addColumn($this->tableSchema->versionColumn(), Types::INTEGER, [
