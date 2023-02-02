@@ -1,4 +1,4 @@
-## eventsauce-migration-generator
+## eventsauce-migration-generator 3.0
 
 Command to generate doctrine migrations per aggregate 
 
@@ -9,6 +9,10 @@ Command to generate doctrine migrations per aggregate
 ```bash
 composer require andreo/eventsauce-migration-generator
 ```
+
+#### Previous versions doc
+
+- [2.0](https://github.com/eventsauce-symfony/eventsauce-migration-generator/tree/2.0.2)
 
 ### Requirements
 
@@ -52,12 +56,12 @@ andreo:eventsauce:doctrine-migrations:generate
 
 #### Command options
 
-**aggregate name**
+**prefix table name**
 
 - required
 - string
 
-Generate migration for **foo** aggregate
+Generate migration with **foo** prefix
 
 ```bash
 php bin/console andreo:eventsauce:doctrine-migrations:generate foo
