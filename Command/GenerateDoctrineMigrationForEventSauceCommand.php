@@ -33,8 +33,8 @@ final class GenerateDoctrineMigrationForEventSauceCommand extends Command
         private readonly EventSauceSchemaBuilder $eventStoreSchemaBuilder = new EventStoreSchemaBuilder(),
         private readonly EventSauceSchemaBuilder $messageOutboxSchemaBuilder = new MessageOutboxSchemaBuilder(),
         private readonly EventSauceSchemaBuilder $snapshotStoreSchemaBuilder = new SnapshotStoreSchemaBuilder(),
-        private bool $formatted = true,
-        private bool $checkDbPlatform = false,
+        private readonly bool $formatted = true,
+        private readonly bool $checkDbPlatform = false,
     ) {
         parent::__construct();
     }
