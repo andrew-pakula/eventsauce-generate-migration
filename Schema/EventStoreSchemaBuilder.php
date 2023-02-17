@@ -43,14 +43,13 @@ final readonly class EventStoreSchemaBuilder implements EventSauceSchemaBuilder
         $table->addColumn($this->tableSchema->payloadColumn(), Types::STRING, [
             'length' => 16001,
         ]);
-        $table->setPrimaryKey([$this->tableSchema->eventIdColumn()]);
-        $table->addIndex([$this->tableSchema->aggregateRootIdColumn()], 'aggregate_root_id');
+        $table->setPrimaryKey([$this->tableSchema->incrementalIdColumn()]);
         $table->addIndex(
             [$this->tableSchema->aggregateRootIdColumn(), $this->tableSchema->versionColumn()],
             'reconstitution'
         );
-        $table->addOption('charset', 'utf8mb4');
-        $table->addOption('collation', 'utf8mb4_general_ci');
+        $table->addOption('charset', $schemaMetaDataProvider->getCharset());
+        $table->addOption('collation', $schemaMetaDataProvider->getCollation());
 
         return $this->schema;
     }

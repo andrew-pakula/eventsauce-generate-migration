@@ -11,4 +11,8 @@ interface SchemaMetaDataProvider
     public function getUuidType(): string;
 
     public function getUuidLength(): int;
+
+    public function getCharset(): string;
+
+    public function getCollation(): string;
 }

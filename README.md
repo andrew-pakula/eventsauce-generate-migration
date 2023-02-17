@@ -1,6 +1,6 @@
 ## eventsauce-migration-generator 3.0
 
-Command to generate doctrine migrations per aggregate 
+Command to generate doctrine migrations per aggregate
 
 [About table schema](https://eventsauce.io/docs/message-storage/repository-table-schema/)
 

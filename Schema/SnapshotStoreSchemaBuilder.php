@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Andreo\EventSauce\Doctrine\Migration\Schema;
 
+use Andreo\EventSauce\Snapshotting\Doctrine\Table\DefaultSnapshotTableSchema;
+use Andreo\EventSauce\Snapshotting\Doctrine\Table\SnapshotTableSchema;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 
 final readonly class SnapshotStoreSchemaBuilder implements EventSauceSchemaBuilder
 {
-    public function __construct(private Schema $schema = new Schema())
-    {
+    public function __construct(
+        private SnapshotTableSchema $tableSchema = new DefaultSnapshotTableSchema(),
+        private Schema $schema = new Schema()
+    ) {
     }
 
     public function buildSchema(SchemaMetaDataProvider $schemaMetaDataProvider): Schema
@@ -19,29 +23,29 @@ final readonly class SnapshotStoreSchemaBuilder implements EventSauceSchemaBuild
         $uuidType = $schemaMetaDataProvider->getUuidType();
         $uuidLength = $schemaMetaDataProvider->getUuidLength();
 
-        $table->addColumn('id', Types::INTEGER, [
+        $table->addColumn($this->tableSchema->incrementalIdColumn(), Types::INTEGER, [
             'length' => 20,
             'unsigned' => true,
             'autoincrement' => true,
         ]);
-        $table->addColumn('aggregate_root_id', $uuidType, [
+        $table->addColumn($this->tableSchema->aggregateRootIdColumn(), $uuidType, [
             'length' => $uuidLength,
             'fixed' => true,
         ]);
-        $table->addColumn('aggregate_root_version', Types::INTEGER, [
+        $table->addColumn($this->tableSchema->versionColumn(), Types::INTEGER, [
             'length' => 20,
             'unsigned' => true,
         ]);
-        $table->addColumn('state', Types::STRING, [
+        $table->addColumn($this->tableSchema->payloadColumn(), Types::STRING, [
             'length' => 16001,
         ]);
-        $table->setPrimaryKey(['id']);
+        $table->setPrimaryKey([$this->tableSchema->incrementalIdColumn()]);
         $table->addIndex(
-            ['aggregate_root_id', 'aggregate_root_version'],
+            [$this->tableSchema->aggregateRootIdColumn(), $this->tableSchema->versionColumn()],
             'last_snapshot'
         );
-        $table->addOption('charset', 'utf8mb4');
-        $table->addOption('collation', 'utf8mb4_general_ci');
+        $table->addOption('charset', $schemaMetaDataProvider->getCharset());
+        $table->addOption('collation', $schemaMetaDataProvider->getCollation());
 
         return $this->schema;
     }

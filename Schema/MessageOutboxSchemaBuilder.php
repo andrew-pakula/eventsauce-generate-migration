@@ -31,8 +31,8 @@ final readonly class MessageOutboxSchemaBuilder implements EventSauceSchemaBuild
         ]);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['consumed', 'id'], 'is_consumed');
-        $table->addOption('charset', 'utf8mb4');
-        $table->addOption('collation', 'utf8mb4_general_ci');
+        $table->addOption('charset', $schemaMetaDataProvider->getCharset());
+        $table->addOption('collation', $schemaMetaDataProvider->getCollation());
 
         return $this->schema;
     }
